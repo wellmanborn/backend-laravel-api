@@ -37,6 +37,7 @@ return [
         'timeout' => env('NEWS_API_TIMEOUT', 10),
         'retry_times' => env('NEWS_API_RETRY_TIMES', null),
         'retry_milliseconds' => env('NEWS_API_MILLISECONDS', null),
+        'categories' => env('NEWS_API_CATEGORIES', ["business","entertainment","general","health","science","sports","technology"]),
     ],
 
 ];

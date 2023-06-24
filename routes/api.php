@@ -18,7 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
+Route::get("/sources", [ArticleController::class, "get_sources"])
+    ->name("articles.get_sources");
+
 Route::middleware(['auth:sanctum'])->group(function() {
+    Route::post("/search/params", [ArticleController::class, "search_params"])
+        ->name("articles.search_params");
     Route::post("/search", [ArticleController::class, "search"])
         ->name("articles.search");
 });
