@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
             'provider' => 'App\Providers\NewsApiServiceProvider',
         ]);
 
+        $this->call(SourcesTableSeeder::class);
     }
 }

@@ -1,20 +1,13 @@
-composer require laravel/breeze
+composer install
 
-php artisan breeze:install api
+php -r \"copy('.env.example', '.env');
 
-php artisan migrate
+php artisan key:generate
 
-composer require spatie/data-transfer-object
-
-php artisan queue:table
-
-composer require beyondcode/laravel-websockets -W
-
-php artisan vendor:publish --provider="BeyondCode\LaravelWebSockets\WebSocketsServiceProvider" --tag="migrations"
-
-php artisan migrate
-
-php artisan vendor:publish --provider="BeyondCode\LaravelWebSockets\WebSocketsServiceProvider" --tag="config"
+- set NEWS_API_KEY in .env file
 
 
-
+php artisan migrate --seed
+php artisan serve
+php artisan queue:work
+php artisan websockets:serve
