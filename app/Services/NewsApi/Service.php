@@ -34,8 +34,6 @@ class Service extends AbstractService
         $this->params["sortBy"] = "publishedAt,relevancy";
         $this->params["languages"] = "en";
 
-        info(json_encode($this->params));
-
         $response = $this->client->get("/everything", $this->params);
 
         if (!$response->successful()) {

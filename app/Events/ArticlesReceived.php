@@ -22,8 +22,6 @@ class ArticlesReceived implements ShouldBroadcast
     public function __construct($collection)
     {
         $this->collection = $collection;
-
-        info($collection);
     }
 
     /**
@@ -34,7 +32,7 @@ class ArticlesReceived implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('articles.1'),
+            new PrivateChannel('articles.' . auth()->id()),
         ];
     }
 
