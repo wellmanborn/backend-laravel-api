@@ -21,11 +21,7 @@ class DatabaseSeeder extends Seeder
              'email' => 'test@example.com',
          ]);
 
-        DataSource::factory()->create([
-            'name' => 'NewsApi',
-            'provider' => 'App\Providers\NewsApiServiceProvider',
-        ]);
-
-        $this->call(SourcesTableSeeder::class);
+        $this->call(NewsApiSeeder::class);
+        $this->call(NYTimesSeeder::class);
     }
 }

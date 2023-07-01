@@ -14,13 +14,11 @@ class CallApiArticlesEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $search;
-
     /**
      * Create a new event instance.
      */
-    public function __construct($search)
+    public function __construct(public $keyword, public $category,
+                                public $published_at, public $resource, public $user)
     {
-        $this->search = $search;
     }
 }

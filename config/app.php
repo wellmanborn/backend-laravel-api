@@ -172,6 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\NewsApiServiceProvider::class,
+        App\Providers\NewYorkTimesServiceProvider::class,
     ])->toArray(),
 
     /*

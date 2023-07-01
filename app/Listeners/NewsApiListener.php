@@ -26,6 +26,6 @@ class NewsApiListener implements ShouldQueue
      */
     public function handle(CallApiArticlesEvent $event): void
     {
-        $this->service->search($event->search["keyword"]);
+        $this->service->search($event->keyword, $event->resource, $event->category, $event->published_at, $event->user);
     }
 }
