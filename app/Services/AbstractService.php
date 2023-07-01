@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Category;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
@@ -15,6 +16,8 @@ class AbstractService
     private int|null $retryTimes;
     private int|null $retryMilliseconds;
     protected PendingRequest $client;
+
+    protected string $name;
 
     public function __construct($url, $timeout, $retryTimes, $retryMilliseconds)
     {
@@ -45,6 +48,16 @@ class AbstractService
         }
 
         return $client;
+    }
+
+    public function categories() : array
+    {
+        $response = [];
+        $categories = Category::where("data_source", $this->name)->get();
+        foreach($categories as $category)
+            $response[] = ["value" => ucfirst($category->title), "label" => $category->title];
+
+        return $response;
     }
 
 }

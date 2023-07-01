@@ -36,8 +36,15 @@ return [
         'key' => env('NEWS_API_KEY'),
         'timeout' => env('NEWS_API_TIMEOUT', 10),
         'retry_times' => env('NEWS_API_RETRY_TIMES', null),
-        'retry_milliseconds' => env('NEWS_API_MILLISECONDS', null),
-        'categories' => env('NEWS_API_CATEGORIES', ["business","entertainment","general","health","science","sports","technology"]),
+        'retry_milliseconds' => env('NEWS_API_MILLISECONDS', null)
+    ],
+
+    'ny_times' => [
+        'url' => env('NY_TIMES_URL'),
+        'key' => env('NY_TIMES_KEY'),
+        'timeout' => env('NY_TIMES_TIMEOUT', 10),
+        'retry_times' => env('NY_TIMES_RETRY_TIMES', null),
+        'retry_milliseconds' => env('NY_TIMES_MILLISECONDS', null)
     ],
 
 ];

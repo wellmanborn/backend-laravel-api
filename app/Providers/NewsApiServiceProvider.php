@@ -18,8 +18,7 @@ class NewsApiServiceProvider extends ServiceProvider
                 key: config('services.news_api.key'),
                 timeout: config('services.news_api.timeout'),
                 retryTimes: config('services.news_api.retry_times'),
-                retryMilliseconds: config('services.news_api.retry_milliseconds'),
-                categories: config('services.news_api.categories'),
+                retryMilliseconds: config('services.news_api.retry_milliseconds')
             );
         });
     }

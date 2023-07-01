@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('data_sources', function (Blueprint $table) {
             $table->id();
+            $table->string("slug")->unique();
             $table->string("name");
-            $table->string("provider");
             $table->timestamps();
         });
     }

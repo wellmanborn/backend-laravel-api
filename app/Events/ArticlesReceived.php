@@ -14,14 +14,11 @@ class ArticlesReceived implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $collection;
-
     /**
      * Create a new event instance.
      */
-    public function __construct($collection)
+    public function __construct(public $collection, public $user)
     {
-        $this->collection = $collection;
     }
 
     /**
@@ -32,7 +29,7 @@ class ArticlesReceived implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('articles.' . auth()->id()),
+            new PrivateChannel('articles.' . $this->user->id),
         ];
     }
 
