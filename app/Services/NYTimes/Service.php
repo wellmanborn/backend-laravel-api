@@ -17,7 +17,7 @@ use App\Services\NYTimes\Collections\SourceCollection;
 class Service extends AbstractService
 {
 
-    protected string $name = "ny_times";
+    public string $name = "ny_times";
     protected array $params;
 
     protected array $categories;
@@ -44,35 +44,28 @@ class Service extends AbstractService
             foreach ($categories as $category){
                 $data[] = $category["value"];
             }
-            $categories = implode(",", $data);
-            $this->params["fq"] = "news_desk:(" . $categories . ")";
+            $categories = implode("\",\"", $data);
+            $this->params["fq"] = "news_desk:(\"" . $categories . "\")";
         }
 
-        !is_null($published_at) && $this->params["begin_date"] = date("MdY", strtotime($published_at));
-        !is_null($published_at) && $this->params["end_date"] = date("MdY", strtotime($published_at));
-/*        $this->params["page"] = 1;
-        $this->params["pageSize"] = 100;
-        $this->params["sortBy"] = "publishedAt,relevancy";
-        $this->params["languages"] = "en";*/
-
-        var_export($this->params);
-        die;
+        !is_null($published_at) && $this->params["begin_date"] = date("Ymd", strtotime($published_at));
+        !is_null($published_at) && $this->params["end_date"] = date("Ymd", strtotime($published_at));
 
         $response = $this->client->get("/articlesearch.json", $this->params);
 
         if (!$response->successful()) {
             error_log((string)$response->toException());
         }
-
         $collection = new ContentCollection();
 
-        $response = $response["response"];
-        foreach ($response->collect('docs') as $article) {
-            $content = CreateContent::handle(article: $article,);
-            $collection->add(item: $content,);
+        if(isset($response["response"]['docs'])) {
+            foreach ($response["response"]['docs'] as $article) {
+                $content = CreateContent::handle(article: $article,);
+                $collection->add(item: $content,);
+            }
+            info($collection);
+            ArticlesReceived::dispatch($collection, $user);
         }
-
-        ArticlesReceived::dispatch($collection);
 
     }
 

@@ -17,7 +17,7 @@ use App\Services\NewsApi\Collections\SourceCollection;
 class Service extends AbstractService
 {
 
-    protected string $name = "news_api";
+    public string $name = "news_api";
     protected array $params;
 
     public function __construct($url, $key, $timeout, $retryTimes, $retryMilliseconds)
@@ -30,10 +30,7 @@ class Service extends AbstractService
 
     public function search(string $query, $sources = null, $category = null, $published_at = null, $user = null): void
     {
-        if(is_array($sources) && !empty($sources)){
-            $sources = explode("|", $sources["value"])[1];
-            $this->params["sources"] = $sources;
-        }
+        !is_null($sources) && $this->params["sources"] = $sources;
         $this->params["q"] = $query;
         !is_null($published_at) && $this->params["from"] = date("M d Y", strtotime($published_at));
         !is_null($published_at) && $this->params["to"] = date("M d Y", strtotime('+1 day', strtotime($published_at)));

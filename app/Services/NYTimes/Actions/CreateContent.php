@@ -14,15 +14,15 @@ class CreateContent
     {
         try {
             return new Content(
-                data_source: "NewsApi",
-                title: $article['title'],
-                category_id: $article['source']['id'],
-                category: $article['source']['name'],
-                author: $article['author'],
-                summary: $article['description'],
-                image: $article['urlToImage'],
-                published_at: date("M d Y", strtotime($article['publishedAt'])),
-                url: $article['url'],
+                data_source: $article["source"],
+                title: $article['headline']["main"],
+                category_id: $article['news_desk'],
+                category: $article['news_desk'],
+                author: $article['byline']["original"],
+                summary: $article['abstract'],
+                image: (isset($article['multimedia']) && isset($article['multimedia'][10])) ? "https://nyt.com/" . $article['multimedia'][0]["url"] : "",
+                published_at: date("M d Y", strtotime($article['pub_date'])),
+                url: $article['web_url'],
             );
         } catch (UnknownProperties $e) {
         }

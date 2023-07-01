@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Events\ArticlesReceived;
 use App\Events\CallApiArticlesEvent;
 use App\Listeners\NewsApiListener;
+use App\Listeners\NewYorkTimesListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -23,7 +24,8 @@ class EventServiceProvider extends ServiceProvider
         ],
         ArticlesReceived::class => [],
         CallApiArticlesEvent::class => [
-            NewsApiListener::class
+            NewsApiListener::class,
+            NewYorkTimesListener::class
         ]
     ];
 

@@ -17,7 +17,7 @@ class AbstractService
     private int|null $retryMilliseconds;
     protected PendingRequest $client;
 
-    protected string $name;
+    public string $name;
 
     public function __construct($url, $timeout, $retryTimes, $retryMilliseconds)
     {

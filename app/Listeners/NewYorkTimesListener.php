@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\CallApiArticlesEvent;
-use App\Services\NewsApi\Service;
+use App\Services\NYTimes\Service;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class NewsApiListener implements ShouldQueue
+class NewYorkTimesListener implements ShouldQueue
 {
 
     public Service $service;
@@ -27,7 +27,7 @@ class NewsApiListener implements ShouldQueue
      */
     public function handle(CallApiArticlesEvent $event): void
     {
-        info($event->data_source["value"]);
+
         if ($event->data_source["value"] == $this->service->name) {
             $this->service->search(
                 $event->keyword,

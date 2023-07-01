@@ -12,13 +12,20 @@ use Illuminate\Queue\SerializesModels;
 
 class CallApiArticlesEvent
 {
+
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public $keyword, public $category,
-                                public $published_at, public $resource, public $user)
-    {
+    public function __construct(
+        public $keyword,
+        public $data_source,
+        public $resource,
+        public $category,
+        public $published_at,
+        public $user
+    ) {
     }
+
 }

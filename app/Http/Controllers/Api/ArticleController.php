@@ -15,28 +15,13 @@ use Illuminate\Http\Request;
 class ArticleController extends Controller
 {
 //    public function search(Request $request, NewsApiService $news_api_service): \Illuminate\Http\JsonResponse
-    public function search(Request $request): JsonResponse
+    public function search(Request $request)
     {
-
-        $ny_times = app(Service::class);
-
-        $ny_times->search($request->get("keyword"), null, $request->get("category"));
-
-        dd("here");
-
-        CallApiArticlesEvent::dispatch($request->get("keyword"), $request->get("category"),
-            $request->get("published_at"), $request->get("resource"), auth()->user());
+        CallApiArticlesEvent::dispatch($request->get("keyword"), $request->get("data_source"), $request->get("resource"),
+            $request->get("category"), $request->get("published_at"), auth()->user());
 
         return response()->json(["status" => true, "data" => ["success"]]);
     }
-
-//    public function get_sources(NewsApiService $news_api_service)
-//    {
-//        $sources = $news_api_service->sources();
-//        foreach ($sources as $source) {
-//            Source::create($source->toArray());
-//        }
-//    }
 
     public function search_params(NewsApiService $news_api_service): JsonResponse
     {
@@ -56,22 +41,26 @@ class ArticleController extends Controller
         return response()->json(["status" => true, "data" => $service->categories()]);
     }
 
-    public function sources(): JsonResponse
+    public function sources(Request $request): JsonResponse
     {
-        $dataSources = DataSource::all();
-
+        $serviceContext = new ServiceContext();
+        $service = $serviceContext->get_service($request->get("data_source"));
+        $sources = $service->sources();
         $response = [];
-        foreach ($dataSources as $dataSource) {
-            $serviceContext = new ServiceContext();
-            $service = $serviceContext->get_service($dataSource->slug);
-            $sources = $service->sources();
-            $tmp = [];
-            foreach ($sources as $key => $value) {
-                $tmp[] = ["value" => $dataSource->slug . "|" . $key, "label" => ucfirst($dataSource->name . " -> " . $value)];
-            }
-            $response = array_merge($response, $tmp);
+        foreach ($sources as $key => $value) {
+            $response[] = ["value" => $key, "label" => ucfirst($value)];
         }
         return response()->json(["status" => true, "data" => $response]);
+    }
+
+    public function data_sources(): JsonResponse
+    {
+        $allDataSources = DataSource::all();
+        $dataSources = [];
+        foreach ($allDataSources as $source) {
+            $dataSources[] = ["value" => $source->slug , "label" => ucfirst($source->name)];
+        }
+        return response()->json(["status" => true, "data" => $dataSources]);
     }
 
 }
