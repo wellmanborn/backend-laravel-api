@@ -1,0 +1,70 @@
+version: "3.8"
+services:
+    forntend:
+        build:
+            context: ../frontend
+        #entrypoint: /bin/sh
+        ports:
+            - 3000:3000
+        #working_dir: /app/frontend
+        #volumes:
+        #    - ./frontend:/app/frontend
+        networks:
+            - assessment
+        #depends_on:
+        #    - backend
+        #    - database
+        #    - redis
+        links:
+            #- backend
+            - database
+
+    #backend:
+    #    build:
+    #        context: ./backend
+    #        #target: php
+    #        args:
+    #            - APP_ENV=local
+    #    restart: unless-stopped
+    #    environment:
+    #        - APP_ENV=local
+    #        #- CONTAINER_ROLE=app
+    #    working_dir: /app/backend
+    #    volumes:
+    #        - ./backend:/app/backend
+    #    ports:
+    #        - 8000:8000
+    #    depends_on:
+    #        - database
+    #        - redis
+    #    links:
+    #        - database
+
+    database:
+        image: mysql
+        container_name: database
+        environment:
+            - MYSQL_DATABASE=laravel
+            - MYSQL_USER=username
+            - MYSQL_PASSWORD=secret
+            - MYSQL_ROOT_PASSWORD=secret
+        ports:
+            - 3306:3306
+        volumes:
+            - db-data:/var/lib/mysql
+    #queue:
+
+    redis:
+        image: redis:alpine
+        command: redis-server --appendonly yes --requirepass  secret
+        ports:
+            - 6379:6379
+
+    #websocket:
+
+networks:
+    assessment:
+        driver: bridge
+
+volumes:
+     db-data: ~
